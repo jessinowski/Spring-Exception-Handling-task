@@ -12,7 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -24,8 +24,8 @@ class AnimalControllerTest {
     @Test
     void getAnimalSpecies() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/api/animals/dog"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("dog"));
+                .andExpect(status().isOk())
+                .andExpect(content().string("dog"));
     }
 
 //    @Test
@@ -44,8 +44,8 @@ class AnimalControllerTest {
     @DirtiesContext
     void handleIllegalArgumentException() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/api/animals/cat"))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message", is("Folgender Fehler ist aufgetreten: Only 'dog' is allowed")))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Folgender Fehler ist aufgetreten: Only 'dog' is allowed")))
                 .andExpect(jsonPath("$.timestamp", is(notNullValue())));
     }
 //    @Test
@@ -61,8 +61,8 @@ class AnimalControllerTest {
     @Test
     void getAllAnimals() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/api/animals"))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.message", is("Ein Fehler ist aufgetreten: No Animals found")))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", is("Ein Fehler ist aufgetreten: No Animals found")))
                 .andExpect(jsonPath("$.timestamp", is(notNullValue())));
     }
 }
